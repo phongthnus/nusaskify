@@ -1,0 +1,18 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: nus
+      POSTGRES_PASSWORD: nus
+      POSTGRES_DB: nusaskify
+    ports:
+      - "5434:5432" # 5434 on the host to avoid clashing with a local Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nus -d nusaskify"]
+      interval: 3s
+      retries: 20
+
+volumes:
+  pgdata:
